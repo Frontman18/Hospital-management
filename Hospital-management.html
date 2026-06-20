@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f0f4f8;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#0077b6;
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#0077b6;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#005f8a;
+}
+
+table{
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#0077b6;
+    color:white;
+}
+
+.delete-btn{
+    background:red;
+}
+
+.delete-btn:hover{
+    background:darkred;
+}
+
+.stats{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+    color:#333;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🏥 Hospital Management System</h1>
+
+    <div class="form-group">
+        <input type="text" id="patientName" placeholder="Patient Name">
+    </div>
+
+    <div class="form-group">
+        <input type="number" id="patientAge" placeholder="Patient Age">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="patientDisease" placeholder="Disease">
+    </div>
+
+    <button onclick="addPatient()">Add Patient</button>
+
+    <div class="stats">
+        Total Patients: <span id="totalPatients">0</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Disease</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="patientTable">
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+let patientCount = 0;
+
+function addPatient(){
+
+    const name = document.getElementById("patientName").value;
+    const age = document.getElementById("patientAge").value;
+    const disease = document.getElementById("patientDisease").value;
+
+    if(name === "" || age === "" || disease === ""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    patientCount++;
+
+    const table = document.getElementById("patientTable");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${patientCount}</td>
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${disease}</td>
+        <td>
+            <button class="delete-btn">Delete</button>
+        </td>
+    `;
+
+    table.appendChild(row);
+
+    updateCount();
+
+    row.querySelector(".delete-btn").addEventListener("click", function(){
+        row.remove();
+        updateCount();
+    });
+
+    document.getElementById("patientName").value = "";
+    document.getElementById("patientAge").value = "";
+    document.getElementById("patientDisease").value = "";
+}
+
+function updateCount(){
+    const rows = document.querySelectorAll("#patientTable tr");
+    document.getElementById("totalPatients").innerText = rows.length;
+}
+
+</script>
+
+</body>
+</html>
